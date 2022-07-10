@@ -16,16 +16,16 @@ listObj = []
 def process():
     with open('input.txt', 'r', encoding='UTF-8') as file:
         while line := file.readline().rstrip():
-            replace = line.replace(" ", "%20").replace(",", "%20")
-            r = url_place + 'query=' + replace + '&key=' + api_key
-            response = requests.request("GET", r, headers=headers, data=payload)
+            formatted = line.replace(" ", "%20").replace(",", "%20")
+            req = url_place + 'query=' + formatted + '&key=' + api_key
+            response = requests.request("GET", req, headers=headers, data=payload)
             data = json.loads(response.text)
 
             place_id = data['results'][0]['place_id']
             formatted_address = data['results'][0]['formatted_address']
 
-            r = url_place_details + place_id + '&key=' + api_key
-            response = requests.request("GET", r, headers=headers, data=payload)
+            req = url_place_details + place_id + '&key=' + api_key
+            response = requests.request("GET", req, headers=headers, data=payload)
 
             data = json.loads(response.text)
             for address in data['result']['address_components']:
